@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.Map;
 
 public class CurrentPriceLoader extends AsyncTaskLoader<Map<CurrencyCode, Currency>> {
-    HistoricalRepository mRepository;
+    private HistoricalRepository mRepository;
 
     public CurrentPriceLoader(Context context, HistoricalRepository repository) {
         super(context);

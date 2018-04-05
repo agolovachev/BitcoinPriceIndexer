@@ -76,7 +76,7 @@ public class HistoricalActivity extends AppCompatActivity {
 
                 @Override
                 public void onLoadFinished(Loader<Map<CurrencyCode, Currency>> loader, @Nullable Map<CurrencyCode, Currency> data) {
-                    if (data == null) {
+                    if (data == null || data.isEmpty()) {
                         return;
                     }
                     showCurrentPrice(data);
@@ -103,9 +103,14 @@ public class HistoricalActivity extends AppCompatActivity {
     }
 
     private void showCurrentPrice(Map<CurrencyCode, Currency> data) {
+        data.remove(CurrencyCode.GBP);
         StringBuilder builder = new StringBuilder("Current price: ");
         for (Map.Entry<CurrencyCode, Currency> entry : data.entrySet()) {
-            builder.append(entry.getKey()).append(" : ").append(entry.getValue().getRate()).append(" ");
+            builder
+                    .append(entry.getKey())
+                    .append(" : ")
+                    .append(entry.getValue().getRate())
+                    .append(" ");
         }
 
         mHeaderTextView.setText(builder.toString().trim());
