@@ -13,7 +13,7 @@ public class CurrentPrice {
     private String chartName;
     @SerializedName("bpi")
     private Map<CurrencyCode, Currency> bpi;
-    
+
     public Time getTime() {
         return time;
     }
