@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Bitcoin Price Indexer</string>
 
-    <string name="bottom_menu_day">For day</string>
     <string name="bottom_menu_week">For week</string>
+    <string name="bottom_menu_month">For month</string>
     <string name="bottom_menu_year">For year</string>
 
     <string name="activity_main_header_text">Hello World!</string>
