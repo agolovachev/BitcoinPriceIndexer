@@ -3,14 +3,34 @@ package com.agolovachev.bitcoinpriceindexer.loader;
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
 
-public class CurrentPriceLoader extends AsyncTaskLoader {
+import com.agolovachev.bitcoinpriceindexer.Historical.HistoricalRepository;
+import com.agolovachev.bitcoinpriceindexer.model.Currency;
+import com.agolovachev.bitcoinpriceindexer.model.CurrencyCode;
 
-    public CurrentPriceLoader(Context context) {
+import java.io.IOException;
+import java.util.Map;
+
+public class CurrentPriceLoader extends AsyncTaskLoader<Map<CurrencyCode, Currency>> {
+    HistoricalRepository mRepository;
+
+    public CurrentPriceLoader(Context context, HistoricalRepository repository) {
         super(context);
+        mRepository = repository;
     }
 
     @Override
-    public Object loadInBackground() {
+    protected void onStartLoading() {
+        forceLoad();
+        super.onStartLoading();
+    }
+
+    @Override
+    public Map<CurrencyCode, Currency> loadInBackground() {
+        try {
+            return  mRepository.getCurrentPrice();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 }
