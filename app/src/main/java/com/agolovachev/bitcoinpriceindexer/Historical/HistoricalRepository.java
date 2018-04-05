@@ -13,5 +13,11 @@ public interface HistoricalRepository {
     Map<String, Float> getHistoricalForWeek() throws IOException;
 
     @Nullable
+    Map<String, Float> getHistoricalForMonth() throws IOException;
+
+    @Nullable
+    Map<String, Float> getHistoricalForYear() throws IOException;
+
+    @Nullable
     Map<CurrencyCode, Currency> getCurrentPrice() throws IOException;
 }

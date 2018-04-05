@@ -9,9 +9,9 @@ import java.io.IOException;
 import java.util.Map;
 
 public class HistoricalLoader extends AsyncTaskLoader<Map<String, Float>> {
-    HistoricalRepository mRepository;
+    private HistoricalRepository mRepository;
 
-    public HistoricalLoader(Context context,HistoricalRepository repository) {
+    public HistoricalLoader(Context context, HistoricalRepository repository) {
         super(context);
         mRepository = repository;
     }
@@ -25,9 +25,19 @@ public class HistoricalLoader extends AsyncTaskLoader<Map<String, Float>> {
     @Override
     public Map<String, Float> loadInBackground() {
         try {
-            return mRepository.getHistoricalForWeek();
+            switch (getId()) {
+                case 0:
+                    return mRepository.getHistoricalForWeek();
+                case 1:
+                    return mRepository.getHistoricalForMonth();
+                case 2:
+                    return mRepository.getHistoricalForYear();
+                default:
+                        return null;
+            }
         } catch (IOException e) {
             e.printStackTrace();
+
             return null;
         }
     }

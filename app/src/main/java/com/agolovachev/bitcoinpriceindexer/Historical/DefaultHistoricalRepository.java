@@ -17,10 +17,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DefaultHistoricalRepository implements HistoricalRepository {
-    private static final String HISTORICAL_FOR_WEEK = "https://api.coindesk.com/v1/bpi/historical/close.json?start=2018-03-29&end=2018-04-05";
     private static final String BASE_HISTORICAL = "https://api.coindesk.com/v1/bpi/historical/close.json";
     private static final String CURRENT_PRICE = "https://api.coindesk.com/v1/bpi/currentprice.json";
     private static final String CURRENT_PRICE_FOR_KZT = "https://api.coindesk.com/v1/bpi/currentprice/KZT.json";
+
+    private static final String WEEK = "week";
+    private static final String MONTH = "month";
+    private static final String YEAR = "year";
+
+    private static final String CURRENCY_KZT = "&currency=KZT";
+
 
     private OkHttpClient mClient = new OkHttpClient();
     private Gson mGson = new Gson();
@@ -28,11 +34,31 @@ public class DefaultHistoricalRepository implements HistoricalRepository {
     @Nullable
     @Override
     public Map<String, Float> getHistoricalForWeek() throws IOException {
-        String forWeek = BASE_HISTORICAL.concat(DateTimeUtils.formQueryForWeek());
-        String forKzt = forWeek.concat("&currency=KZT");
-        Request request = new Request.Builder()
-                .url(forKzt)
-                .build();
+        Request request = formRequestForPeriod(WEEK);
+        Response response = mClient.newCall(request).execute();
+        if (response.isSuccessful()) {
+            return manageHistoricalResponse(response);
+        }
+
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public Map<String, Float> getHistoricalForMonth() throws IOException {
+        Request request = formRequestForPeriod(MONTH);
+        Response response = mClient.newCall(request).execute();
+        if (response.isSuccessful()) {
+            return manageHistoricalResponse(response);
+        }
+
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public Map<String, Float> getHistoricalForYear() throws IOException {
+        Request request = formRequestForPeriod(YEAR);
         Response response = mClient.newCall(request).execute();
         if (response.isSuccessful()) {
             return manageHistoricalResponse(response);
@@ -95,9 +121,29 @@ public class DefaultHistoricalRepository implements HistoricalRepository {
         if (responseBody.isEmpty()) {
             return null;
         }
-
         Historical historical = mGson.fromJson(responseBody, Historical.class);
 
         return historical.getBpi();
+    }
+
+    private Request formRequestForPeriod(String period) {
+        String formPeriod;
+        switch (period) {
+            case WEEK:
+                formPeriod = BASE_HISTORICAL.concat(DateTimeUtils.formQueryForWeek());
+                break;
+            case MONTH:
+                formPeriod = BASE_HISTORICAL.concat(DateTimeUtils.formQueryForMonth());
+                break;
+            case YEAR:
+                formPeriod = BASE_HISTORICAL.concat(DateTimeUtils.formQueryForYear());
+                break;
+                default: formPeriod = "";
+        }
+        formPeriod = formPeriod.concat(CURRENCY_KZT);
+
+        return new Request.Builder()
+                .url(formPeriod)
+                .build();
     }
 }

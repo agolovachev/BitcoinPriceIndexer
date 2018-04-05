@@ -9,7 +9,7 @@
         app:showAsAction="ifRoom"/>
 
     <item
-        android:id="@+id/activity_main_bottom_menu_day"
+        android:id="@+id/activity_main_bottom_menu_month"
         android:title="@string/bottom_menu_month"
         android:enabled="true"
         app:showAsAction="ifRoom"/>

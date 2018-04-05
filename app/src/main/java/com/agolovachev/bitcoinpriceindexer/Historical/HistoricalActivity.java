@@ -1,10 +1,13 @@
 package com.agolovachev.bitcoinpriceindexer.Historical;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.agolovachev.bitcoinpriceindexer.R;
@@ -22,34 +25,38 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class HistoricalActivity extends AppCompatActivity {
-    private static final int HISTORICAL_LOADER_ID = 0;
-    private static final int CURRENT_PRICE_LOADER_ID = 1;
+public class HistoricalActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
+    private static final int HISTORICAL_LOADER_FOR_WEEK_ID = 0;
+    private static final int HISTORICAL_LOADER_FOR_MONTH_ID = 1;
+    private static final int HISTORICAL_LOADER_FOR_YEAR_ID = 2;
+    private static final int CURRENT_PRICE_LOADER_ID = 10;
 
-    HistoricalLoader mHistoricalLoader;
     CurrentPriceLoader mCurrentPriceLoader;
     LineChart mLineChart;
     TextView mHeaderTextView;
+    HistoricalRepository mRepository;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        HistoricalRepository repository = new DefaultHistoricalRepository();
-        mHistoricalLoader = new HistoricalLoader(this, repository);
-        mCurrentPriceLoader = new CurrentPriceLoader(this, repository);
-        getSupportLoaderManager().initLoader(HISTORICAL_LOADER_ID, null, historicalCallback);
+        mRepository = new DefaultHistoricalRepository();
+        mCurrentPriceLoader = new CurrentPriceLoader(this, mRepository);
+        getSupportLoaderManager().initLoader(HISTORICAL_LOADER_FOR_WEEK_ID, null, historicalCallback);
         getSupportLoaderManager().initLoader(CURRENT_PRICE_LOADER_ID, null, currencyCallback);
 
         mLineChart = findViewById(R.id.activity_main_line_chart);
         mHeaderTextView = findViewById(R.id.activity_main_text_view);
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.activity_main_bottom_nav_bar);
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
     }
 
     private LoaderManager.LoaderCallbacks<Map<String, Float>> historicalCallback =
             new LoaderManager.LoaderCallbacks<Map<String, Float>>() {
                 @Override
                 public Loader<Map<String, Float>> onCreateLoader(int i, Bundle bundle) {
-                    return mHistoricalLoader;
+                    return new HistoricalLoader(getApplicationContext(), mRepository);
                 }
 
                 @Override
@@ -114,5 +121,22 @@ public class HistoricalActivity extends AppCompatActivity {
         }
 
         mHeaderTextView.setText(builder.toString().trim());
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case (R.id.activity_main_bottom_menu_week):
+                getSupportLoaderManager().initLoader(HISTORICAL_LOADER_FOR_WEEK_ID, null, historicalCallback);
+                break;
+            case (R.id.activity_main_bottom_menu_month):
+                getSupportLoaderManager().initLoader(HISTORICAL_LOADER_FOR_MONTH_ID, null, historicalCallback);
+                break;
+            case (R.id.activity_main_bottom_menu_year):
+                getSupportLoaderManager().initLoader(HISTORICAL_LOADER_FOR_YEAR_ID, null, historicalCallback);
+                break;
+        }
+
+        return false;
     }
 }
