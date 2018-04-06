@@ -1,13 +1,13 @@
 package com.agolovachev.bitcoinpriceindexer.bitcointransactions;
 
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-
 
 import com.agolovachev.bitcoinpriceindexer.R;
 import com.agolovachev.bitcoinpriceindexer.loader.BitcoinTransactionsLoader;
@@ -35,6 +35,10 @@ public class BitcoinTransactionsActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new BitcoinTranasctionAdapter(new ArrayList<BitcoinTransaction>());
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setHasFixedSize(true);
+        RecyclerView.ItemDecoration itemDecoration = new
+                DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        mRecyclerView.addItemDecoration(itemDecoration);
     }
 
     private LoaderManager.LoaderCallbacks<List<BitcoinTransaction>> transactionsCallback =

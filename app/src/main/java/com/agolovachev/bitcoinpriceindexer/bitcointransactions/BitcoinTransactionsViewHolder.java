@@ -19,7 +19,7 @@ public class BitcoinTransactionsViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(BitcoinTransaction transaction) {
         String price = "Price: " + transaction.getPrice();
-        String amount = "Amount: " + transaction.getPrice();
+        String amount = "Amount: " + transaction.getAmount();
 
         mPriceTextView.setText(price);
         mAmountTextView.setText(amount);
