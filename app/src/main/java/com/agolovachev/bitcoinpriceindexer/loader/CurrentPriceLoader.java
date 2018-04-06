@@ -3,7 +3,7 @@ package com.agolovachev.bitcoinpriceindexer.loader;
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
 
-import com.agolovachev.bitcoinpriceindexer.Historical.HistoricalRepository;
+import com.agolovachev.bitcoinpriceindexer.historical.HistoricalRepository;
 import com.agolovachev.bitcoinpriceindexer.model.Currency;
 import com.agolovachev.bitcoinpriceindexer.model.CurrencyCode;
 
@@ -31,6 +31,7 @@ public class CurrentPriceLoader extends AsyncTaskLoader<Map<CurrencyCode, Curren
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         return null;
     }
 }

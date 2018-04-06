@@ -3,7 +3,7 @@ package com.agolovachev.bitcoinpriceindexer.loader;
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
 
-import com.agolovachev.bitcoinpriceindexer.Historical.HistoricalRepository;
+import com.agolovachev.bitcoinpriceindexer.historical.HistoricalRepository;
 
 import java.io.IOException;
 import java.util.Map;

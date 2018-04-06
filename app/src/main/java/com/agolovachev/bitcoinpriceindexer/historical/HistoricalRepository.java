@@ -1,4 +1,4 @@
-package com.agolovachev.bitcoinpriceindexer.Historical;
+package com.agolovachev.bitcoinpriceindexer.historical;
 
 import android.support.annotation.Nullable;
 
