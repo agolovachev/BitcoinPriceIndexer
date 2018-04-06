@@ -2,20 +2,25 @@ package com.agolovachev.bitcoinpriceindexer.api;
 
 import android.support.annotation.Nullable;
 
+import com.agolovachev.bitcoinpriceindexer.model.BitcoinTransaction;
 import com.agolovachev.bitcoinpriceindexer.model.CurrencyCode;
 import com.agolovachev.bitcoinpriceindexer.model.CurrentPrice;
 import com.agolovachev.bitcoinpriceindexer.model.Historical;
 import com.agolovachev.bitcoinpriceindexer.utils.DateTimeUtils;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.List;
 
 public class DefaultApiClient implements ApiClient {
     private static final String BASE_HISTORICAL = "https://api.coindesk.com/v1/bpi/historical/close.json";
     private static final String CURRENT_PRICE = "https://api.coindesk.com/v1/bpi/currentprice.json";
+    private static final String LAST_TRANSACTIONS = "https://www.bitstamp.net/api/transactions/";
 
     private static final String WEEK = "week";
     private static final String MONTH = "month";
@@ -118,6 +123,26 @@ public class DefaultApiClient implements ApiClient {
         return mGson.fromJson(responseBody, CurrentPrice.class);
     }
 
+    @Nullable
+    @Override
+    public List<BitcoinTransaction> getLastTransactions() {
+        Request request = new Request.Builder()
+                .url(LAST_TRANSACTIONS)
+                .build();
+        Response response = getResponse(request);
+        if (response == null) {
+            return null;
+        }
+
+        String responseBody = getResponseBody(response);
+        if(responseBody == null) {
+            return null;
+        }
+
+        Type type = new TypeToken<List<BitcoinTransaction>>() {}.getType();
+        return mGson.fromJson(responseBody, type);
+    }
+
     private Request getHistoricalRequestForPeriod(String period) {
         String formPeriod;
         switch (period) {
@@ -183,6 +208,7 @@ public class DefaultApiClient implements ApiClient {
                 .build();
     }
 
+    @Nullable
     private Response getResponse(Request request) {
         try {
             return  mClient.newCall(request).execute();
@@ -192,6 +218,7 @@ public class DefaultApiClient implements ApiClient {
         }
     }
 
+    @Nullable
     private String getResponseBody(Response response) {
         try {
             return response.body().string();

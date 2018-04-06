@@ -71,12 +71,10 @@ public class DefaultHistoricalRepository implements HistoricalRepository {
         return data;
     }
 
-    @Nullable
     private Map<CurrencyCode, Currency> getCurrentBpi(CurrentPrice currentPrice){
         return currentPrice.getBpi();
     }
 
-    @Nullable
     private Map<String, Float> getRatesPerPeriod(Historical historical) {
         return historical.getBpi();
     }

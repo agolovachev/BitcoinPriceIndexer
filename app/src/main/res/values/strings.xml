@@ -6,4 +6,11 @@
     <string name="bottom_menu_year">For year</string>
 
     <string name="activity_main_header_text">Hello World!</string>
+
+    <string name="activity_main_menu_bitcoin_transactions">Last Bitcoin transactions</string>
+
+    <string name="activity_bitcoin_transaction_header_text">Last Bitcoin transactions</string>
+    <string name="activity_bitcoin_transaction_price_text">Price: </string>
+    <string name="activity_bitcoin_transaction_amount_text">Amount: </string>
+
 </resources>

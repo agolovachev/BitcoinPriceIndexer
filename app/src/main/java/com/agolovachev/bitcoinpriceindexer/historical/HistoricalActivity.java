@@ -1,5 +1,6 @@
 package com.agolovachev.bitcoinpriceindexer.historical;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -7,10 +8,12 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.agolovachev.bitcoinpriceindexer.R;
+import com.agolovachev.bitcoinpriceindexer.bitcointransactions.BitcoinTransactionsActivity;
 import com.agolovachev.bitcoinpriceindexer.loader.CurrentPriceLoader;
 import com.agolovachev.bitcoinpriceindexer.loader.HistoricalLoader;
 import com.agolovachev.bitcoinpriceindexer.model.Currency;
@@ -50,6 +53,19 @@ public class HistoricalActivity extends AppCompatActivity implements BottomNavig
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.activity_main_bottom_nav_bar);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.add(R.string.activity_main_menu_bitcoin_transactions);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent = new Intent(this, BitcoinTransactionsActivity.class);
+        startActivity(intent);
+        return super.onOptionsItemSelected(item);
     }
 
     private LoaderManager.LoaderCallbacks<Map<String, Float>> historicalCallback =
