@@ -11,6 +11,9 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.agolovachev.bitcoinpriceindexer.R;
 import com.agolovachev.bitcoinpriceindexer.loader.BitcoinTransactionsLoader;
@@ -26,14 +29,22 @@ public class BitcoinTransactionsActivity extends AppCompatActivity implements Re
     RecyclerView mRecyclerView;
     BitcoinTransactionsLoader mTransactionsLoader;
     BitcoinTransactionAdapter mAdapter;
+    ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bitcoin_transactions);
+
+        mProgressBar = findViewById(R.id.activity_bitcoin_transaction_progress_bar);
+
         mRepository = new DefaultBitcoinTransactionRepository();
         mTransactionsLoader = new BitcoinTransactionsLoader(this, mRepository);
         getSupportLoaderManager().initLoader(TRANSACTION_LOADER_ID, null, transactionsCallback);
+        showProgress();
+        TextView headerTextView = findViewById(R.id.activity_bitcoin_transactions_header_text_view);
+        headerTextView.setText(R.string.activity_bitcoin_transaction_header_text);
+
         mRecyclerView = findViewById(R.id.activity_bitcoin_transactions_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new BitcoinTransactionAdapter(new ArrayList<BitcoinTransaction>());
@@ -56,10 +67,12 @@ public class BitcoinTransactionsActivity extends AppCompatActivity implements Re
                 public void onLoadFinished(Loader<List<BitcoinTransaction>> loader, @Nullable List<BitcoinTransaction> bitcoinTransactions) {
                     getSupportLoaderManager().destroyLoader(TRANSACTION_LOADER_ID);
                     if (bitcoinTransactions == null) {
+                        showError();
                         return;
                     }
 
                     mAdapter.update(bitcoinTransactions);
+                    hideProgress();
                 }
 
                 @Override
@@ -73,5 +86,17 @@ public class BitcoinTransactionsActivity extends AppCompatActivity implements Re
         transaction.add(R.id.activity_bitcoin_transaction_fragment_container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    private void showProgress() {
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideProgress() {
+        mProgressBar.setVisibility(View.GONE);
+    }
+
+    private void showError() {
+        Toast.makeText(this, R.string.unknown_error, Toast.LENGTH_LONG).show();
     }
 }

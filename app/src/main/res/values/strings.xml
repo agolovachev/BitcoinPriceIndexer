@@ -19,4 +19,6 @@
     <string name="fragment_bitcoin_transaction_price_text">Price: </string>
     <string name="fragment_bitcoin_transaction_type_text">Type: </string>
     <string name="fragment_bitcoin_transaction_amount_text">Amount: </string>
+
+    <string name="unknown_error">Some error occurred </string>
 </resources>

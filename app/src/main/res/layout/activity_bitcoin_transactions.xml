@@ -8,6 +8,7 @@
     android:orientation="vertical"
     tools:context=".bitcointransactions.BitcoinTransactionsActivity">
 
+
     <FrameLayout
         android:id="@+id/activity_bitcoin_transaction_fragment_container"
         android:layout_width="wrap_content"
@@ -20,7 +21,13 @@
         android:textAlignment="center"
         android:textSize="16sp"
         android:layout_margin="8dp"
-        android:text="@string/activity_bitcoin_transaction_header_text"
+        />
+
+    <ProgressBar
+        android:id="@+id/activity_bitcoin_transaction_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         />
 
     <android.support.v7.widget.RecyclerView
