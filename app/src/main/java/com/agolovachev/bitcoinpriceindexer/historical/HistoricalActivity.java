@@ -31,6 +31,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class HistoricalActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
     private static final int HISTORICAL_LOADER_FOR_WEEK_ID = 0;
     private static final int HISTORICAL_LOADER_FOR_MONTH_ID = 1;
@@ -38,24 +41,27 @@ public class HistoricalActivity extends AppCompatActivity implements BottomNavig
     private static final int CURRENT_PRICE_LOADER_ID = 10;
 
     private CurrentPriceLoader mCurrentPriceLoader;
-    private LineChart mLineChart;
-    private TextView mHeaderTextView;
     private HistoricalRepository mRepository;
-    private ProgressBar mProgressBar;
+
+    @BindView(R.id.activity_main_line_chart)
+    LineChart mLineChart;
+    @BindView(R.id.activity_main_text_view)
+    TextView mHeaderTextView;
+    @BindView(R.id.activity_main_progress_bar)
+    ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mProgressBar = findViewById(R.id.activity_main_progress_bar);
+        ButterKnife.bind(this);
+
         mRepository = new DefaultHistoricalRepository();
         mCurrentPriceLoader = new CurrentPriceLoader(this, mRepository);
         getSupportLoaderManager().initLoader(HISTORICAL_LOADER_FOR_WEEK_ID, null, historicalCallback);
         getSupportLoaderManager().initLoader(CURRENT_PRICE_LOADER_ID, null, currencyCallback);
         showProgress();
 
-        mLineChart = findViewById(R.id.activity_main_line_chart);
-        mHeaderTextView = findViewById(R.id.activity_main_text_view);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.activity_main_bottom_nav_bar);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);

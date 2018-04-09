@@ -22,21 +22,26 @@ import com.agolovachev.bitcoinpriceindexer.model.BitcoinTransaction;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class BitcoinTransactionsActivity extends AppCompatActivity implements RecyclerTouchListener.OnClickListener {
     private static final int TRANSACTION_LOADER_ID = 100;
 
     BitcoinTransactionsRepository mRepository;
-    RecyclerView mRecyclerView;
     BitcoinTransactionsLoader mTransactionsLoader;
     BitcoinTransactionAdapter mAdapter;
+
+    @BindView(R.id.activity_bitcoin_transactions_recycler_view)
+    RecyclerView mRecyclerView;
+    @BindView(R.id.activity_bitcoin_transaction_progress_bar)
     ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bitcoin_transactions);
-
-        mProgressBar = findViewById(R.id.activity_bitcoin_transaction_progress_bar);
+        ButterKnife.bind(this);
 
         mRepository = new DefaultBitcoinTransactionRepository();
         mTransactionsLoader = new BitcoinTransactionsLoader(this, mRepository);
@@ -45,7 +50,6 @@ public class BitcoinTransactionsActivity extends AppCompatActivity implements Re
         TextView headerTextView = findViewById(R.id.activity_bitcoin_transactions_header_text_view);
         headerTextView.setText(R.string.activity_bitcoin_transaction_header_text);
 
-        mRecyclerView = findViewById(R.id.activity_bitcoin_transactions_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new BitcoinTransactionAdapter(new ArrayList<BitcoinTransaction>());
         mRecyclerView.setAdapter(mAdapter);
