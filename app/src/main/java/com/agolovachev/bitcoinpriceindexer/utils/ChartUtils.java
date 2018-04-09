@@ -7,9 +7,7 @@ import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ChartUtils {
     public static void setXAxis(LineChart chart) {
@@ -36,24 +34,5 @@ public class ChartUtils {
 
         return formattedDates;
     }
-
-    public static Map<String, Float> getAveragePricesForMonth(Map<String, Float> data) {
-        Map<String, Float> averagePrices = new HashMap<>();
-        int count = 1;
-        int week = 1;
-        float price = 0;
-        for (Map.Entry<String, Float> entry : data.entrySet()) {
-            count++;
-            price += entry.getValue();
-            if (count%7 == 0) {
-                price /= 7;
-                averagePrices.put("Week " + week++, price);
-                price = 0;
-            }
-        }
-
-        return averagePrices;
-    }
-
 
 }
