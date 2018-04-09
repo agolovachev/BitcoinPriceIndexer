@@ -17,7 +17,7 @@ public class DefaultHistoricalRepository implements HistoricalRepository {
     private ApiClient mApiClient;
 
     public DefaultHistoricalRepository() {
-        mApiClient = new DefaultApiClient();
+        mApiClient =  DefaultApiClient.getInstance();
     }
 
     @Nullable

@@ -12,7 +12,7 @@ public class DefaultBitcoinTransactionRepository implements BitcoinTransactionsR
     private ApiClient mApiClient;
 
     public DefaultBitcoinTransactionRepository() {
-        mApiClient = new DefaultApiClient();
+        mApiClient = DefaultApiClient.getInstance();
     }
 
     @Nullable

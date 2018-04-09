@@ -33,7 +33,19 @@ public class DefaultApiClient implements ApiClient {
     private OkHttpClient mClient;
     Gson mGson;
 
-    public DefaultApiClient() {
+    private static DefaultApiClient sInstance;
+
+    public static DefaultApiClient getInstance() {
+        synchronized (DefaultApiClient.class) {
+            if (sInstance == null) {
+                sInstance = new DefaultApiClient();
+            }
+        }
+
+        return sInstance;
+    }
+
+    private DefaultApiClient() {
         mClient = new OkHttpClient();
         mGson = new Gson();
     }
