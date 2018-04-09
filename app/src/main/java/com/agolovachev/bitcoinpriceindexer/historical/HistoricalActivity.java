@@ -129,7 +129,7 @@ public class HistoricalActivity extends AppCompatActivity implements BottomNavig
             entries.add(new Entry(x++, entry.getValue()));
         }
 
-        LineDataSet dataSet = new LineDataSet(entries, "Label");
+        LineDataSet dataSet = new LineDataSet(entries, getResources().getString(R.string.currency_KZT));
         LineData lineData = new LineData(dataSet);
         mLineChart.setData(lineData);
         mLineChart.invalidate();
@@ -137,13 +137,14 @@ public class HistoricalActivity extends AppCompatActivity implements BottomNavig
 
     private void showCurrentPrice(Map<CurrencyCode, Currency> data) {
         data.remove(CurrencyCode.GBP);
-        StringBuilder builder = new StringBuilder("Current price: ");
+        StringBuilder builder = new StringBuilder(getResources().getString(R.string.current_price) + " ");
         for (Map.Entry<CurrencyCode, Currency> entry : data.entrySet()) {
             builder
                     .append(entry.getKey())
                     .append(" : ")
                     .append(entry.getValue().getRate())
-                    .append(" ");
+                    .append(getCurrencySymbor(entry.getKey()))
+                    .append(";  ");
         }
 
         mHeaderTextView.setText(builder.toString().trim());
@@ -176,5 +177,18 @@ public class HistoricalActivity extends AppCompatActivity implements BottomNavig
 
     private void showError() {
         Toast.makeText(this, R.string.unknown_error, Toast.LENGTH_LONG).show();
+    }
+
+    private String getCurrencySymbor(CurrencyCode currencyCode) {
+        switch (currencyCode) {
+            case EUR:
+                return getResources().getString(R.string.currency_symbol_EUR);
+            case KZT:
+                return getResources().getString(R.string.currency_symbol_KZT);
+            case USD:
+                return getResources().getString(R.string.currency_symbol_USD);
+            default:
+                return "";
+        }
     }
 }

@@ -21,4 +21,14 @@
     <string name="fragment_bitcoin_transaction_amount_text">Amount: </string>
 
     <string name="unknown_error">Some error occurred </string>
+
+    <string name="currency_symbol_KZT">₸</string>
+    <string name="currency_symbol_USD">$</string>
+    <string name="currency_symbol_EUR">€</string>
+    <string name="currency_EUR">EUR</string>
+    <string name="currency_USD">USD</string>
+    <string name="currency_KZT">KZT</string>
+
+    <string name="current_price">Current price: </string>
+
 </resources>
