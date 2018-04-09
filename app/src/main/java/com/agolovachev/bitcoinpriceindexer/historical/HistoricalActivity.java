@@ -10,7 +10,10 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.agolovachev.bitcoinpriceindexer.R;
 import com.agolovachev.bitcoinpriceindexer.bitcointransactions.BitcoinTransactionsActivity;
@@ -34,19 +37,22 @@ public class HistoricalActivity extends AppCompatActivity implements BottomNavig
     private static final int HISTORICAL_LOADER_FOR_YEAR_ID = 2;
     private static final int CURRENT_PRICE_LOADER_ID = 10;
 
-    CurrentPriceLoader mCurrentPriceLoader;
-    LineChart mLineChart;
-    TextView mHeaderTextView;
-    HistoricalRepository mRepository;
+    private CurrentPriceLoader mCurrentPriceLoader;
+    private LineChart mLineChart;
+    private TextView mHeaderTextView;
+    private HistoricalRepository mRepository;
+    private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mProgressBar = findViewById(R.id.activity_main_progress_bar);
         mRepository = new DefaultHistoricalRepository();
         mCurrentPriceLoader = new CurrentPriceLoader(this, mRepository);
         getSupportLoaderManager().initLoader(HISTORICAL_LOADER_FOR_WEEK_ID, null, historicalCallback);
         getSupportLoaderManager().initLoader(CURRENT_PRICE_LOADER_ID, null, currencyCallback);
+        showProgress();
 
         mLineChart = findViewById(R.id.activity_main_line_chart);
         mHeaderTextView = findViewById(R.id.activity_main_text_view);
@@ -79,6 +85,7 @@ public class HistoricalActivity extends AppCompatActivity implements BottomNavig
                 public void onLoadFinished(Loader<Map<String, Float>> loader, @Nullable Map<String, Float> data) {
                     getSupportLoaderManager().destroyLoader(0);
                     if (data == null) {
+                        showError();
                         return;
                     }
 
@@ -100,9 +107,12 @@ public class HistoricalActivity extends AppCompatActivity implements BottomNavig
                 @Override
                 public void onLoadFinished(Loader<Map<CurrencyCode, Currency>> loader, @Nullable Map<CurrencyCode, Currency> data) {
                     if (data == null || data.isEmpty()) {
+                        showError();
                         return;
                     }
+
                     showCurrentPrice(data);
+                    hideProgress();
                 }
 
                 @Override
@@ -154,5 +164,17 @@ public class HistoricalActivity extends AppCompatActivity implements BottomNavig
         }
 
         return false;
+    }
+
+    private void showProgress() {
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideProgress() {
+        mProgressBar.setVisibility(View.GONE);
+    }
+
+    private void showError() {
+        Toast.makeText(this, R.string.unknown_error, Toast.LENGTH_LONG).show();
     }
 }
