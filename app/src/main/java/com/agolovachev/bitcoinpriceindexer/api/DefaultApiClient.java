@@ -170,7 +170,7 @@ public class DefaultApiClient implements ApiClient {
             default: formPeriod = "";
         }
         //TODO Добавить возможность выбирать валюту (например, через паттерн Builder)
-        formPeriod = formPeriod.concat(CURRENCY_KZT);
+        formPeriod = formPeriod.concat(CURRENCY_USD);
 
         return new Request.Builder()
                 .url(formPeriod)

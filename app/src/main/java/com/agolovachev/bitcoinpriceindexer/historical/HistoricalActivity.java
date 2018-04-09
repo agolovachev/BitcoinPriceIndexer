@@ -21,6 +21,7 @@ import com.agolovachev.bitcoinpriceindexer.loader.CurrentPriceLoader;
 import com.agolovachev.bitcoinpriceindexer.loader.HistoricalLoader;
 import com.agolovachev.bitcoinpriceindexer.model.Currency;
 import com.agolovachev.bitcoinpriceindexer.model.CurrencyCode;
+import com.agolovachev.bitcoinpriceindexer.utils.ChartUtils;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -135,9 +136,11 @@ public class HistoricalActivity extends AppCompatActivity implements BottomNavig
             entries.add(new Entry(x++, entry.getValue()));
         }
 
-        LineDataSet dataSet = new LineDataSet(entries, getResources().getString(R.string.currency_KZT));
+        LineDataSet dataSet = new LineDataSet(entries, getResources().getString(R.string.currency_USD));
         LineData lineData = new LineData(dataSet);
         mLineChart.setData(lineData);
+        ChartUtils.setXAxis(mLineChart);
+        ChartUtils.setYAxis(mLineChart);
         mLineChart.invalidate();
     }
 
