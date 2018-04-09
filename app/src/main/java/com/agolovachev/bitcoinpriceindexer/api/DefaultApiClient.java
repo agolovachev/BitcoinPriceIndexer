@@ -2,20 +2,16 @@ package com.agolovachev.bitcoinpriceindexer.api;
 
 import android.support.annotation.Nullable;
 
-import com.agolovachev.bitcoinpriceindexer.model.BitcoinTransaction;
 import com.agolovachev.bitcoinpriceindexer.model.CurrencyCode;
 import com.agolovachev.bitcoinpriceindexer.model.CurrentPrice;
 import com.agolovachev.bitcoinpriceindexer.model.Historical;
 import com.agolovachev.bitcoinpriceindexer.utils.DateTimeUtils;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.List;
 
 public class DefaultApiClient implements ApiClient {
     private static final String BASE_HISTORICAL = "https://api.coindesk.com/v1/bpi/historical/close.json";
@@ -133,26 +129,6 @@ public class DefaultApiClient implements ApiClient {
         }
 
         return mGson.fromJson(responseBody, CurrentPrice.class);
-    }
-
-    @Nullable
-    @Override
-    public List<BitcoinTransaction> getLastTransactions() {
-        Request request = new Request.Builder()
-                .url(LAST_TRANSACTIONS)
-                .build();
-        Response response = getResponse(request);
-        if (response == null) {
-            return null;
-        }
-
-        String responseBody = getResponseBody(response);
-        if(responseBody == null) {
-            return null;
-        }
-
-        Type type = new TypeToken<List<BitcoinTransaction>>() {}.getType();
-        return mGson.fromJson(responseBody, type);
     }
 
     private Request getHistoricalRequestForPeriod(String period) {
