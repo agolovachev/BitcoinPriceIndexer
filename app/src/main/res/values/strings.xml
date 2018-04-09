@@ -13,4 +13,10 @@
     <string name="activity_bitcoin_transaction_price_text">Price: </string>
     <string name="activity_bitcoin_transaction_amount_text">Amount: </string>
 
+
+    <string name="fragment_bitcoin_transaction_date_text">Date: </string>
+    <string name="fragment_bitcoin_transaction_tid_text">id: </string>
+    <string name="fragment_bitcoin_transaction_price_text">Price: </string>
+    <string name="fragment_bitcoin_transaction_type_text">Type: </string>
+    <string name="fragment_bitcoin_transaction_amount_text">Amount: </string>
 </resources>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/color_white"
+    tools:context=".bitcointransactions.BitcoinTransactionFragment">
+
+    <TextView
+        android:id="@+id/fragment_bitcoin_transaction_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        />
+
+    <TextView
+        android:id="@+id/fragment_bitcoin_transaction_tid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        />
+
+    <TextView
+        android:id="@+id/fragment_bitcoin_transaction_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        />
+
+    <TextView
+        android:id="@+id/fragment_bitcoin_transaction_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        />
+
+    <TextView
+        android:id="@+id/fragment_bitcoin_transaction_amount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        />
+</LinearLayout>
