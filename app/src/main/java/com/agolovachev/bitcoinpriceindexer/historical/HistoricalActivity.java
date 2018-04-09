@@ -22,11 +22,14 @@ import com.agolovachev.bitcoinpriceindexer.loader.HistoricalLoader;
 import com.agolovachev.bitcoinpriceindexer.model.Currency;
 import com.agolovachev.bitcoinpriceindexer.model.CurrencyCode;
 import com.agolovachev.bitcoinpriceindexer.utils.ChartUtils;
+import com.agolovachev.bitcoinpriceindexer.utils.DateValueFormatter;
+import com.agolovachev.bitcoinpriceindexer.utils.PriceValueFormatter;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -130,28 +133,34 @@ public class HistoricalActivity extends AppCompatActivity implements BottomNavig
     private void populateLineChart(Map<String, Float> data) {
         List<Entry> entries = new ArrayList<>();
         Map<String, Float> objects = new HashMap<>(data);
+        List<String> dates = new ArrayList<>();
 
         float x = 0;
         for (Map.Entry<String, Float> entry : objects.entrySet()) {
+            dates.add(entry.getKey());
             entries.add(new Entry(x++, entry.getValue()));
         }
 
         LineDataSet dataSet = new LineDataSet(entries, getResources().getString(R.string.currency_USD));
         LineData lineData = new LineData(dataSet);
-        mLineChart.setData(lineData);
         ChartUtils.setXAxis(mLineChart);
         ChartUtils.setYAxis(mLineChart);
+        mLineChart.getXAxis().setValueFormatter(
+                new DateValueFormatter(ChartUtils.getFormattedDatesForXAxis(dates)));
+        mLineChart.getAxisLeft().setValueFormatter(new PriceValueFormatter());
+        mLineChart.setData(lineData);
         mLineChart.invalidate();
     }
 
     private void showCurrentPrice(Map<CurrencyCode, Currency> data) {
+        DecimalFormat format = new DecimalFormat("###,###,##0.00");
         data.remove(CurrencyCode.GBP);
         StringBuilder builder = new StringBuilder(getResources().getString(R.string.current_price) + " ");
         for (Map.Entry<CurrencyCode, Currency> entry : data.entrySet()) {
             builder
                     .append(entry.getKey())
                     .append(" : ")
-                    .append(entry.getValue().getRate())
+                    .append(format.format(entry.getValue().getRateFloat()))
                     .append(getCurrencySymbor(entry.getKey()))
                     .append(";  ");
         }
