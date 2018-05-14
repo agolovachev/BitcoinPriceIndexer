@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.agolovachev.bitcoinpriceindexer.R;
 import com.agolovachev.bitcoinpriceindexer.loader.BitcoinTransactionsLoader;
 import com.agolovachev.bitcoinpriceindexer.model.BitcoinTransaction;
+import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,7 @@ public class BitcoinTransactionsActivity extends AppCompatActivity implements Re
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AndroidThreeTen.init(getApplicationContext());
         setContentView(R.layout.activity_bitcoin_transactions);
         ButterKnife.bind(this);
 

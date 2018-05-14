@@ -1,8 +1,6 @@
 package com.agolovachev.bitcoinpriceindexer.bitcointransactions;
 
 
-import android.annotation.TargetApi;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -15,7 +13,7 @@ import android.widget.TextView;
 import com.agolovachev.bitcoinpriceindexer.R;
 import com.agolovachev.bitcoinpriceindexer.model.BitcoinTransaction;
 
-import java.time.Instant;
+import org.threeten.bp.Instant;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -69,10 +67,9 @@ public class BitcoinTransactionFragment extends Fragment {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.O)
     private void bindBitcoinTransaction() {
         String date = getResources().getString(R.string.fragment_bitcoin_transaction_date_text) +
-                Instant.ofEpochMilli(mBitcoinTransaction.getDate());
+                Instant.ofEpochSecond(mBitcoinTransaction.getDate());
         mDate.setText(date);
 
         String tid = getResources().getString(R.string.fragment_bitcoin_transaction_tid_text) +

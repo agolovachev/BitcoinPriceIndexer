@@ -28,6 +28,7 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -57,6 +58,8 @@ public class HistoricalActivity extends AppCompatActivity implements BottomNavig
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AndroidThreeTen.init(getApplicationContext());
+
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
